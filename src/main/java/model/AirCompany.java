@@ -63,4 +63,26 @@ public class AirCompany {
                 ", airVehicles=" + airVehicles +
                 '}';
     }
+
+    public int calculateCivilCapacity() {
+        return airVehicles.stream()
+                          .filter(airVehicle -> airVehicle.getServiceZone().equals(ServiceZone.CIVIL))
+                          .mapToInt(civilAirVehicle -> ((CivilAirVehicle) civilAirVehicle).getCapacity())
+                          .sum();
+    }
+
+    public double calculateCivilCarryingCapacity() {
+        return calculateCarryingCapacity(ServiceZone.CIVIL);
+    }
+
+    public double calculateMilitaryCarryingCapacity() {
+        return calculateCarryingCapacity(ServiceZone.MILITARY);
+    }
+
+    private double calculateCarryingCapacity(ServiceZone serviceZone) {
+        return airVehicles.stream()
+                          .filter(airVehicle -> airVehicle.getServiceZone().equals(serviceZone))
+                          .mapToDouble(airVehicle -> airVehicle.getMaxTakeoffWeight() - airVehicle.getEmptyWeight())
+                          .sum();
+    }
 }
