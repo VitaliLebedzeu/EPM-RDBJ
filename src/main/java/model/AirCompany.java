@@ -71,22 +71,32 @@ public class AirCompany {
                           .sum();
     }
 
-    public double calculateCivilCarryingCapacity() {
-        return calculateCarryingCapacity(ServiceZone.CIVIL);
+    public double calculateFullCivilCarryingCapacity() {
+        return calculateFullCarryingCapacity(ServiceZone.CIVIL);
     }
 
-    public double calculateMilitaryCarryingCapacity() {
-        return calculateCarryingCapacity(ServiceZone.MILITARY);
+    public double calculateFullMilitaryCarryingCapacity() {
+        return calculateFullCarryingCapacity(ServiceZone.MILITARY);
     }
 
     public List<AirVehicle> sortAirVehiclesByRange() {
         return airVehicles.stream().sorted(Comparator.comparingInt(AirVehicle::getRange)).collect(Collectors.toList());
     }
 
-    private double calculateCarryingCapacity(ServiceZone serviceZone) {
+    public List<AirVehicle> getAirVehicleByParameters(AirVehicle airVehicle) {
+        return airVehicles.stream()
+                          .filter(a -> airVehicle.getServiceZone().equals(ServiceZone.CIVIL)
+                                  ? ((CivilAirVehicle) a).getCapacity() >= ((CivilAirVehicle) airVehicle).getCapacity()
+                                  : ((MilitaryAirVehicle) a).getMilitaryType().equals(((MilitaryAirVehicle) airVehicle).getMilitaryType()))
+                          .filter(a -> a.getRange() >= airVehicle.getRange())
+                          .filter(a -> a.calculateCarryingCapacity() > airVehicle.calculateCarryingCapacity())
+                          .collect(Collectors.toList());
+    }
+
+    private double calculateFullCarryingCapacity(ServiceZone serviceZone) {
         return airVehicles.stream()
                           .filter(airVehicle -> airVehicle.getServiceZone().equals(serviceZone))
-                          .mapToDouble(airVehicle -> airVehicle.getMaxTakeoffWeight() - airVehicle.getEmptyWeight())
+                          .mapToDouble(AirVehicle::calculateCarryingCapacity)
                           .sum();
     }
 }

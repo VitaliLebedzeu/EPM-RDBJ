@@ -100,6 +100,10 @@ public abstract class AirVehicle extends Vehicle implements Flyable {
         return range;
     }
 
+    public double calculateCarryingCapacity() {
+        return maxTakeoffWeight - emptyWeight;
+    }
+
     abstract AirVehicle setAirVehicleType(AirVehicleType airVehicleType);
 
     abstract AirVehicle setServiceCeiling(double serviceCeiling);
