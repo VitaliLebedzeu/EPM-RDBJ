@@ -79,6 +79,10 @@ public class AirCompany {
         return calculateCarryingCapacity(ServiceZone.MILITARY);
     }
 
+    public List<AirVehicle> sortAirVehiclesByRange() {
+        return airVehicles.stream().sorted(Comparator.comparingInt(AirVehicle::getRange)).collect(Collectors.toList());
+    }
+
     private double calculateCarryingCapacity(ServiceZone serviceZone) {
         return airVehicles.stream()
                           .filter(airVehicle -> airVehicle.getServiceZone().equals(serviceZone))
