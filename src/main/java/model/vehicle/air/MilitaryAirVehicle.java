@@ -1,5 +1,8 @@
 package model.vehicle.air;
 
+import exception.vehicle.VehicleEmptyWeightException;
+import exception.vehicle.air.AirVehicleMaxTakeoffWeightException;
+import exception.vehicle.air.AirVehicleRangeException;
 import model.ServiceZone;
 
 import java.util.Objects;
@@ -27,6 +30,9 @@ public class MilitaryAirVehicle extends AirVehicle {
 
     @Override
     public MilitaryAirVehicle setEmptyWeight(double emptyWeight) {
+        if (emptyWeight <= 0) {
+            System.err.println(new VehicleEmptyWeightException(this).getMessage());
+        }
         super.emptyWeight = emptyWeight;
         return this;
 
@@ -39,25 +45,19 @@ public class MilitaryAirVehicle extends AirVehicle {
     }
 
     @Override
-    public MilitaryAirVehicle setServiceCeiling(double serviceCeiling) {
-        super.serviceCeiling = serviceCeiling;
-        return this;
-    }
-
-    @Override
     public MilitaryAirVehicle setMaxTakeoffWeight(double maxTakeoffWeight) {
+        if (maxTakeoffWeight <= 0) {
+            System.err.println(new AirVehicleMaxTakeoffWeightException(this).getMessage());
+        }
         super.maxTakeoffWeight = maxTakeoffWeight;
         return this;
     }
 
     @Override
-    public MilitaryAirVehicle setMaxLandingWeight(double maxLandingWeight) {
-        super.maxLandingWeight = maxLandingWeight;
-        return this;
-    }
-
-    @Override
     public MilitaryAirVehicle setRange(int range) {
+        if (range <= 0) {
+            System.err.println(new AirVehicleRangeException(this).getMessage());
+        }
         super.range = range;
         return this;
     }
@@ -91,9 +91,7 @@ public class MilitaryAirVehicle extends AirVehicle {
                 "militaryType=" + militaryType +
                 ", serviceZone=" + serviceZone +
                 ", airVehicleType=" + airVehicleType +
-                ", serviceCeiling=" + serviceCeiling +
                 ", maxTakeoffWeight=" + maxTakeoffWeight +
-                ", maxLandingWeight=" + maxLandingWeight +
                 ", range=" + range +
                 ", manufacturer='" + manufacturer + '\'' +
                 ", name='" + name + '\'' +

@@ -1,5 +1,6 @@
 package model.vehicle.air;
 
+import exception.vehicle.air.AirVehicleCarryingCapacityException;
 import model.ServiceZone;
 import model.vehicle.Vehicle;
 
@@ -9,9 +10,7 @@ public abstract class AirVehicle extends Vehicle implements Flyable {
 
     protected ServiceZone serviceZone;
     protected AirVehicleType airVehicleType;
-    protected double serviceCeiling;
     protected double maxTakeoffWeight;
-    protected double maxLandingWeight;
     protected int range;
 
     private boolean isFlown;
@@ -38,9 +37,7 @@ public abstract class AirVehicle extends Vehicle implements Flyable {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         AirVehicle that = (AirVehicle) o;
-        return Double.compare(that.serviceCeiling, serviceCeiling) == 0 &&
-                Double.compare(that.maxTakeoffWeight, maxTakeoffWeight) == 0 &&
-                Double.compare(that.maxLandingWeight, maxLandingWeight) == 0 &&
+        return Double.compare(that.maxTakeoffWeight, maxTakeoffWeight) == 0 &&
                 range == that.range &&
                 isFlown == that.isFlown &&
                 serviceZone == that.serviceZone &&
@@ -49,7 +46,7 @@ public abstract class AirVehicle extends Vehicle implements Flyable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), serviceZone, airVehicleType, serviceCeiling, maxTakeoffWeight, maxLandingWeight, range, isFlown);
+        return Objects.hash(super.hashCode(), serviceZone, airVehicleType, maxTakeoffWeight, range, isFlown);
     }
 
     @Override
@@ -57,9 +54,7 @@ public abstract class AirVehicle extends Vehicle implements Flyable {
         return "AirVehicle{" +
                 "serviceZone=" + serviceZone +
                 ", airVehicleType=" + airVehicleType +
-                ", serviceCeiling=" + serviceCeiling +
                 ", maxTakeoffWeight=" + maxTakeoffWeight +
-                ", maxLandingWeight=" + maxLandingWeight +
                 ", range=" + range +
                 ", isFlown=" + isFlown +
                 ", manufacturer='" + manufacturer + '\'' +
@@ -84,37 +79,37 @@ public abstract class AirVehicle extends Vehicle implements Flyable {
         return airVehicleType;
     }
 
-    public double getServiceCeiling() {
-        return serviceCeiling;
-    }
-
     public double getMaxTakeoffWeight() {
         return maxTakeoffWeight;
-    }
-
-    public double getMaxLandingWeight() {
-        return maxLandingWeight;
     }
 
     public int getRange() {
         return range;
     }
 
-    public double calculateCarryingCapacity() {
-        return maxTakeoffWeight - emptyWeight;
+    public double getCarryingCapacity() {
+        try {
+            return calculateCarryingCapacity();
+        } catch (AirVehicleCarryingCapacityException e) {
+            System.err.println(e.getMessage());
+            return 0;
+        }
     }
 
     abstract AirVehicle setAirVehicleType(AirVehicleType airVehicleType);
 
-    abstract AirVehicle setServiceCeiling(double serviceCeiling);
-
     abstract AirVehicle setMaxTakeoffWeight(double maxTakeoffWeight);
-
-    abstract AirVehicle setMaxLandingWeight(double maxLandingWeight);
 
     abstract AirVehicle setRange(int range);
 
     private boolean isNotFlown() {
         return !isFlown;
+    }
+
+    private double calculateCarryingCapacity() throws AirVehicleCarryingCapacityException {
+        if (maxTakeoffWeight < emptyWeight) {
+            throw new AirVehicleCarryingCapacityException(this);
+        }
+        return maxTakeoffWeight - emptyWeight;
     }
 }

@@ -1,5 +1,9 @@
 package model.vehicle.air;
 
+import exception.vehicle.VehicleEmptyWeightException;
+import exception.vehicle.air.AirVehicleMaxTakeoffWeightException;
+import exception.vehicle.air.AirVehicleRangeException;
+import exception.vehicle.air.civil.CivilAirVehicleCapacityException;
 import model.ServiceZone;
 
 import java.util.Objects;
@@ -27,6 +31,9 @@ public class CivilAirVehicle extends AirVehicle {
 
     @Override
     public CivilAirVehicle setEmptyWeight(double emptyWeight) {
+        if (emptyWeight <= 0) {
+            System.err.println(new VehicleEmptyWeightException(this).getMessage());
+        }
         super.emptyWeight = emptyWeight;
         return this;
 
@@ -39,25 +46,19 @@ public class CivilAirVehicle extends AirVehicle {
     }
 
     @Override
-    public CivilAirVehicle setServiceCeiling(double serviceCeiling) {
-        super.serviceCeiling = serviceCeiling;
-        return this;
-    }
-
-    @Override
     public CivilAirVehicle setMaxTakeoffWeight(double maxTakeoffWeight) {
+        if (maxTakeoffWeight <= 0) {
+            System.err.println(new AirVehicleMaxTakeoffWeightException(this).getMessage());
+        }
         super.maxTakeoffWeight = maxTakeoffWeight;
         return this;
     }
 
     @Override
-    public CivilAirVehicle setMaxLandingWeight(double maxLandingWeight) {
-        super.maxLandingWeight = maxLandingWeight;
-        return this;
-    }
-
-    @Override
     public CivilAirVehicle setRange(int range) {
+        if (range <= 0) {
+            System.err.println(new AirVehicleRangeException(this).getMessage());
+        }
         super.range = range;
         return this;
     }
@@ -67,6 +68,9 @@ public class CivilAirVehicle extends AirVehicle {
     }
 
     public CivilAirVehicle setCapacity(int capacity) {
+        if (capacity < 0) {
+            System.err.println(new CivilAirVehicleCapacityException(this).getMessage());
+        }
         this.capacity = capacity;
         return this;
     }
@@ -91,9 +95,7 @@ public class CivilAirVehicle extends AirVehicle {
                 "capacity=" + capacity +
                 ", serviceZone=" + serviceZone +
                 ", airVehicleType=" + airVehicleType +
-                ", serviceCeiling=" + serviceCeiling +
                 ", maxTakeoffWeight=" + maxTakeoffWeight +
-                ", maxLandingWeight=" + maxLandingWeight +
                 ", range=" + range +
                 ", manufacturer='" + manufacturer + '\'' +
                 ", name='" + name + '\'' +

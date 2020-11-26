@@ -85,18 +85,14 @@ public class AirCompany {
 
     public List<AirVehicle> getAirVehicleByParameters(AirVehicle airVehicle) {
         return airVehicles.stream()
-                          .filter(a -> airVehicle.getServiceZone().equals(ServiceZone.CIVIL)
-                                  ? ((CivilAirVehicle) a).getCapacity() >= ((CivilAirVehicle) airVehicle).getCapacity()
-                                  : ((MilitaryAirVehicle) a).getMilitaryType().equals(((MilitaryAirVehicle) airVehicle).getMilitaryType()))
                           .filter(a -> a.getRange() >= airVehicle.getRange())
-                          .filter(a -> a.calculateCarryingCapacity() > airVehicle.calculateCarryingCapacity())
-                          .collect(Collectors.toList());
+                          .filter(a -> a.getCarryingCapacity() > airVehicle.getCarryingCapacity()).collect(Collectors.toList());
     }
 
     private double calculateFullCarryingCapacity(ServiceZone serviceZone) {
         return airVehicles.stream()
                           .filter(airVehicle -> airVehicle.getServiceZone().equals(serviceZone))
-                          .mapToDouble(AirVehicle::calculateCarryingCapacity)
+                          .mapToDouble(AirVehicle::getCarryingCapacity)
                           .sum();
     }
 }
