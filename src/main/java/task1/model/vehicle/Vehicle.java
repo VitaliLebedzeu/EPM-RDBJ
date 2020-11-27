@@ -1,4 +1,4 @@
-package model.vehicle;
+package task1.model.vehicle;
 
 import java.util.Objects;
 

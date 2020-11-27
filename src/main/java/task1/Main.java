@@ -1,9 +1,11 @@
-import model.AirCompany;
-import model.vehicle.air.AirVehicle;
-import model.vehicle.air.AirVehicleType;
-import model.vehicle.air.CivilAirVehicle;
-import model.vehicle.air.MilitaryAirVehicle;
-import model.vehicle.air.MilitaryAirVehicleType;
+package task1;
+
+import task1.model.AirCompany;
+import task1.model.vehicle.air.AirVehicle;
+import task1.model.vehicle.air.AirVehicleType;
+import task1.model.vehicle.air.CivilAirVehicle;
+import task1.model.vehicle.air.MilitaryAirVehicle;
+import task1.model.vehicle.air.MilitaryAirVehicleType;
 
 public class Main {
 

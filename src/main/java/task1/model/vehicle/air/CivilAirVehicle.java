@@ -1,35 +1,36 @@
-package model.vehicle.air;
+package task1.model.vehicle.air;
 
-import exception.vehicle.VehicleEmptyWeightException;
-import exception.vehicle.air.AirVehicleMaxTakeoffWeightException;
-import exception.vehicle.air.AirVehicleRangeException;
-import model.ServiceZone;
+import task1.exception.vehicle.VehicleEmptyWeightException;
+import task1.exception.vehicle.air.AirVehicleMaxTakeoffWeightException;
+import task1.exception.vehicle.air.AirVehicleRangeException;
+import task1.exception.vehicle.air.civil.CivilAirVehicleCapacityException;
+import task1.model.ServiceZone;
 
 import java.util.Objects;
 
-public class MilitaryAirVehicle extends AirVehicle {
+public class CivilAirVehicle extends AirVehicle {
 
-    private MilitaryAirVehicleType militaryType;
+    private int capacity;
 
-    public MilitaryAirVehicle() {
+    public CivilAirVehicle() {
         super();
-        super.serviceZone = ServiceZone.MILITARY;
+        super.serviceZone = ServiceZone.CIVIL;
     }
 
     @Override
-    public MilitaryAirVehicle setManufacturer(String manufacturer) {
+    public CivilAirVehicle setManufacturer(String manufacturer) {
         super.manufacturer = manufacturer;
         return this;
     }
 
     @Override
-    public MilitaryAirVehicle setName(String name) {
+    public CivilAirVehicle setName(String name) {
         super.name = name;
         return this;
     }
 
     @Override
-    public MilitaryAirVehicle setEmptyWeight(double emptyWeight) {
+    public CivilAirVehicle setEmptyWeight(double emptyWeight) {
         if (emptyWeight <= 0) {
             System.err.println(new VehicleEmptyWeightException(this).getMessage());
         }
@@ -39,13 +40,13 @@ public class MilitaryAirVehicle extends AirVehicle {
     }
 
     @Override
-    public MilitaryAirVehicle setAirVehicleType(AirVehicleType airVehicleType) {
+    public CivilAirVehicle setAirVehicleType(AirVehicleType airVehicleType) {
         super.airVehicleType = airVehicleType;
         return this;
     }
 
     @Override
-    public MilitaryAirVehicle setMaxTakeoffWeight(double maxTakeoffWeight) {
+    public CivilAirVehicle setMaxTakeoffWeight(double maxTakeoffWeight) {
         if (maxTakeoffWeight <= 0) {
             System.err.println(new AirVehicleMaxTakeoffWeightException(this).getMessage());
         }
@@ -54,7 +55,7 @@ public class MilitaryAirVehicle extends AirVehicle {
     }
 
     @Override
-    public MilitaryAirVehicle setRange(int range) {
+    public CivilAirVehicle setRange(int range) {
         if (range <= 0) {
             System.err.println(new AirVehicleRangeException(this).getMessage());
         }
@@ -62,12 +63,15 @@ public class MilitaryAirVehicle extends AirVehicle {
         return this;
     }
 
-    public MilitaryAirVehicleType getMilitaryType() {
-        return militaryType;
+    public int getCapacity() {
+        return capacity;
     }
 
-    public MilitaryAirVehicle setMilitaryType(MilitaryAirVehicleType militaryType) {
-        this.militaryType = militaryType;
+    public CivilAirVehicle setCapacity(int capacity) {
+        if (capacity < 0) {
+            System.err.println(new CivilAirVehicleCapacityException(this).getMessage());
+        }
+        this.capacity = capacity;
         return this;
     }
 
@@ -76,19 +80,19 @@ public class MilitaryAirVehicle extends AirVehicle {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        MilitaryAirVehicle that = (MilitaryAirVehicle) o;
-        return militaryType == that.militaryType;
+        CivilAirVehicle that = (CivilAirVehicle) o;
+        return capacity == that.capacity;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), militaryType);
+        return Objects.hash(super.hashCode(), capacity);
     }
 
     @Override
     public String toString() {
-        return "MilitaryAirVehicle{" +
-                "militaryType=" + militaryType +
+        return "CivilAirVehicle{" +
+                "capacity=" + capacity +
                 ", serviceZone=" + serviceZone +
                 ", airVehicleType=" + airVehicleType +
                 ", maxTakeoffWeight=" + maxTakeoffWeight +

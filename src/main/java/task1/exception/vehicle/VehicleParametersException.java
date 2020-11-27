@@ -1,12 +1,12 @@
-package exception.vehicle;
+package task1.exception.vehicle;
 
-import model.vehicle.Vehicle;
+import task1.model.vehicle.Vehicle;
 
 public class VehicleParametersException extends RuntimeException {
 
     protected final Vehicle vehicle;
 
-    private static final String MESSAGE = "[VehicleParametersException] The model '%s' has wrong parameters";
+    private static final String MESSAGE = "[VehicleParametersException] The task1.model '%s' has wrong parameters";
 
     public VehicleParametersException(Vehicle vehicle) {
         this.vehicle = vehicle;

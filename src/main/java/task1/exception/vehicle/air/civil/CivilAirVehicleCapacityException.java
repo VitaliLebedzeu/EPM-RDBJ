@@ -1,11 +1,11 @@
-package exception.vehicle.air.civil;
+package task1.exception.vehicle.air.civil;
 
-import exception.vehicle.VehicleParametersException;
-import model.vehicle.air.CivilAirVehicle;
+import task1.exception.vehicle.VehicleParametersException;
+import task1.model.vehicle.air.CivilAirVehicle;
 
 public class CivilAirVehicleCapacityException extends VehicleParametersException {
 
-    private static final String MESSAGE = "[CivilAirVehicleCapacityException] The model '%s' should have positive capacity parameter.";
+    private static final String MESSAGE = "[CivilAirVehicleCapacityException] The task1.model '%s' should have positive capacity parameter.";
 
     public CivilAirVehicleCapacityException(CivilAirVehicle civilAirVehicle) {
         super(civilAirVehicle);

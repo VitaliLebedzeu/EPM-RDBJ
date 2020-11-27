@@ -1,8 +1,7 @@
-package model;
+package task1.model;
 
-import model.vehicle.air.AirVehicle;
-import model.vehicle.air.CivilAirVehicle;
-import model.vehicle.air.MilitaryAirVehicle;
+import task1.model.vehicle.air.AirVehicle;
+import task1.model.vehicle.air.CivilAirVehicle;
 
 import java.util.ArrayList;
 import java.util.Arrays;
