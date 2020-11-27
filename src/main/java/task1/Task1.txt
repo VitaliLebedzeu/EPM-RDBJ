@@ -1,0 +1,5 @@
+Task 1
+Design an object model for a given domain and then design a hierarchy of exceptions for the engineered object model.
+Airline: Define a hierarchy of aircraft, helicopters, quadcopters, etc. Create an airline. 
+Calculate the total capacity and lifting capacity. Sort the company's flight vehicles by range. 
+Find an aircraft in the company that matches the specified range of parameters.
