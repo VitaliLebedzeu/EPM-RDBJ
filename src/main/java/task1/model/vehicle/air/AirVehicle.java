@@ -1,8 +1,8 @@
-package model.vehicle.air;
+package task1.model.vehicle.air;
 
-import exception.vehicle.air.AirVehicleCarryingCapacityException;
-import model.ServiceZone;
-import model.vehicle.Vehicle;
+import task1.exception.vehicle.air.AirVehicleCarryingCapacityException;
+import task1.model.ServiceZone;
+import task1.model.vehicle.Vehicle;
 
 import java.util.Objects;
 
