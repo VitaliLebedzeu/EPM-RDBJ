@@ -47,6 +47,21 @@ public abstract class Vehicle {
         return emptyWeight;
     }
 
+    public String getInfo() {
+        return getInfo("");
+    }
+
+    /**
+     * This method return detailed vehicle info
+     * @param name of vehicle
+     * @return String that contains all parameters
+     */
+    public String getInfo(String name) {
+        return name + " Specification:\n" + "   Name: " + name + "\n" +
+                "   Manufacturer: " + manufacturer + "\n" +
+                "   Empty Weight: " + emptyWeight + "\n";
+    }
+
     protected abstract Vehicle setManufacturer(String manufacturer);
 
     protected abstract Vehicle setName(String name);

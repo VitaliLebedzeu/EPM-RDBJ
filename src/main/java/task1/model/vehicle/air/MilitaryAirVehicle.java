@@ -89,13 +89,15 @@ public class MilitaryAirVehicle extends AirVehicle {
     public String toString() {
         return "MilitaryAirVehicle{" +
                 "militaryType=" + militaryType +
-                ", serviceZone=" + serviceZone +
-                ", airVehicleType=" + airVehicleType +
-                ", maxTakeoffWeight=" + maxTakeoffWeight +
-                ", range=" + range +
-                ", manufacturer='" + manufacturer + '\'' +
-                ", name='" + name + '\'' +
-                ", emptyWeight=" + emptyWeight +
                 '}';
+    }
+
+    /**
+     * This method return detailed military air vehicle info
+     * @return String that contains all parameters including ancestor's
+     */
+    @Override
+    public String getInfo() {
+        return super.toString() + "   Military Type: " + militaryType + "\n";
     }
 }
