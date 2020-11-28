@@ -40,10 +40,11 @@ public class Main {
         aeroflot.sortAirVehiclesByRange().forEach(a -> System.out.println(a.toString()));
         System.out.println("===============================");
 
-        System.out.println("===============================");
         System.out.println("All air vehicle with range more or equals than 500 km:");
         AirVehicle searchedParameters = new CivilAirVehicle().setRange(500);
         aeroflot.getAirVehicleByParameters(searchedParameters).forEach(a -> System.out.println(a.toString()));
         System.out.println("===============================");
+
+        System.out.println(aeroflot.getAirVehiclesInfo());
     }
 }
