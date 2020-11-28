@@ -1,0 +1,6 @@
+Task 2. Dynamic Array
+
+Create your own DynamicDoubleArray class containing a double [] array inside that supports adding an element to the end of the array (add), 
+getting an element by index (get), printing the internal state (toString), removing an arbitrary element by index (remove), as well as 
+the ability set the initial size when calling the constructor. When the number of elements changes, the internal array must be recreated. 
+Parameterize the class by letting it store an array of elements of any type.
