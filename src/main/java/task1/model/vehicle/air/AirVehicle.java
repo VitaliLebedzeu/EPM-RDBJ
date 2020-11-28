@@ -57,18 +57,7 @@ public abstract class AirVehicle extends Vehicle implements Flyable {
                 ", maxTakeoffWeight=" + maxTakeoffWeight +
                 ", range=" + range +
                 ", isFlown=" + isFlown +
-                ", manufacturer='" + manufacturer + '\'' +
-                ", name='" + name + '\'' +
-                ", emptyWeight=" + emptyWeight +
                 '}';
-    }
-
-    protected boolean isFlown() {
-        return isFlown;
-    }
-
-    protected void setFlown(boolean flown) {
-        isFlown = flown;
     }
 
     public ServiceZone getServiceZone() {
@@ -94,6 +83,26 @@ public abstract class AirVehicle extends Vehicle implements Flyable {
             System.err.println(e.getMessage());
             return 0;
         }
+    }
+
+    /**
+     * This method return detailed air vehicle info
+     * @return String that contains all parameters including ancestor's
+     */
+    @Override
+    public String getInfo() {
+        return super.getInfo(name) + "   Type: " + airVehicleType + "\n" +
+                "   Service Zone: " + serviceZone + "\n" +
+                "   Range: " + range + "\n" +
+                "   Maximum Takeoff Weight: " + maxTakeoffWeight + "\n";
+    }
+
+    protected boolean isFlown() {
+        return isFlown;
+    }
+
+    protected void setFlown(boolean flown) {
+        isFlown = flown;
     }
 
     abstract AirVehicle setAirVehicleType(AirVehicleType airVehicleType);
