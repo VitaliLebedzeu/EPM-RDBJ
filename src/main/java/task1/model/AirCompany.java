@@ -70,6 +70,15 @@ public class AirCompany {
                           .sum();
     }
 
+    /**
+     * This method is not specified by Service Zone
+     * @deprecated Please use {@link #calculateFullCivilCarryingCapacity()} or {@link #calculateFullMilitaryCarryingCapacity()}
+     */
+    @Deprecated
+    public double calculateFullCarryingCapacity() {
+        return airVehicles.stream().mapToDouble(AirVehicle::getCarryingCapacity).sum();
+    }
+
     public double calculateFullCivilCarryingCapacity() {
         return calculateFullCarryingCapacity(ServiceZone.CIVIL);
     }
