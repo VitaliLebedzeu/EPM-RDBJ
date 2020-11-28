@@ -11,6 +11,10 @@ public class MilitaryAirVehicle extends AirVehicle {
 
     private MilitaryAirVehicleType militaryType;
 
+    //TODO: Will be implemented in the next iteration.
+    @SuppressWarnings("unused")
+    private int power;
+
     public MilitaryAirVehicle() {
         super();
         super.serviceZone = ServiceZone.MILITARY;
@@ -98,6 +102,6 @@ public class MilitaryAirVehicle extends AirVehicle {
      */
     @Override
     public String getInfo() {
-        return super.toString() + "   Military Type: " + militaryType + "\n";
+        return super.getInfo() + "   Military Type: " + militaryType + "\n";
     }
 }
