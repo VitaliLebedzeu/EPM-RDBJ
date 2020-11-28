@@ -1,5 +1,6 @@
 package task1.model;
 
+import task1.InfoHarvester;
 import task1.model.vehicle.air.AirVehicle;
 import task1.model.vehicle.air.CivilAirVehicle;
 
@@ -36,9 +37,8 @@ public class AirCompany {
         this.airVehicles = airVehicles;
     }
 
-    public AirCompany addAirVehicle(AirVehicle... airVehicles) {
+    public void addAirVehicle(AirVehicle... airVehicles) {
         this.airVehicles.addAll(Arrays.asList(airVehicles));
-        return this;
     }
 
     @Override
@@ -68,6 +68,20 @@ public class AirCompany {
                           .filter(airVehicle -> airVehicle.getServiceZone().equals(ServiceZone.CIVIL))
                           .mapToInt(civilAirVehicle -> ((CivilAirVehicle) civilAirVehicle).getCapacity())
                           .sum();
+    }
+
+    public String getAirVehiclesInfo() {
+        InfoHarvester<AirVehicle> infoHarvester = (List<AirVehicle> x) -> x.stream().map(AirVehicle::getInfo).collect(Collectors.joining());
+        return infoHarvester.harvest(airVehicles);
+    }
+
+    /**
+     * This method is not specified by Service Zone
+     * @deprecated Please use {@link #calculateFullCivilCarryingCapacity()} or {@link #calculateFullMilitaryCarryingCapacity()}
+     */
+    @Deprecated
+    public double calculateFullCarryingCapacity() {
+        return airVehicles.stream().mapToDouble(AirVehicle::getCarryingCapacity).sum();
     }
 
     public double calculateFullCivilCarryingCapacity() {

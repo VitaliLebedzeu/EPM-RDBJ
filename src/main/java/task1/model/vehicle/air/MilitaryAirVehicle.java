@@ -11,6 +11,10 @@ public class MilitaryAirVehicle extends AirVehicle {
 
     private MilitaryAirVehicleType militaryType;
 
+    //TODO: Will be implemented in the next iteration.
+    @SuppressWarnings("unused")
+    private int power;
+
     public MilitaryAirVehicle() {
         super();
         super.serviceZone = ServiceZone.MILITARY;
@@ -89,13 +93,15 @@ public class MilitaryAirVehicle extends AirVehicle {
     public String toString() {
         return "MilitaryAirVehicle{" +
                 "militaryType=" + militaryType +
-                ", serviceZone=" + serviceZone +
-                ", airVehicleType=" + airVehicleType +
-                ", maxTakeoffWeight=" + maxTakeoffWeight +
-                ", range=" + range +
-                ", manufacturer='" + manufacturer + '\'' +
-                ", name='" + name + '\'' +
-                ", emptyWeight=" + emptyWeight +
                 '}';
+    }
+
+    /**
+     * This method return detailed military air vehicle info
+     * @return String that contains all parameters including ancestor's
+     */
+    @Override
+    public String getInfo() {
+        return super.getInfo() + "   Military Type: " + militaryType + "\n";
     }
 }

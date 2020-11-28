@@ -93,13 +93,15 @@ public class CivilAirVehicle extends AirVehicle {
     public String toString() {
         return "CivilAirVehicle{" +
                 "capacity=" + capacity +
-                ", serviceZone=" + serviceZone +
-                ", airVehicleType=" + airVehicleType +
-                ", maxTakeoffWeight=" + maxTakeoffWeight +
-                ", range=" + range +
-                ", manufacturer='" + manufacturer + '\'' +
-                ", name='" + name + '\'' +
-                ", emptyWeight=" + emptyWeight +
                 '}';
+    }
+
+    /**
+     * This method return detailed civil air vehicle info
+     * @return String that contains all parameters including ancestor's
+     */
+    @Override
+    public String getInfo() {
+        return super.getInfo() + "   Capacity: " + capacity + "\n";
     }
 }

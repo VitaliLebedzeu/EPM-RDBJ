@@ -27,23 +27,20 @@ public class Main {
         aeroflot.addAirVehicle(phantom, falcon, hind, quad, airbus320, twinRanger);
 
         System.out.println("===============================");
-        System.out.println("All air vehicles:");
-        aeroflot.getAirVehicles().forEach(a -> System.out.println(a.toString()));
-        System.out.println("===============================");
-
         System.out.println("Full civil capacity: " + aeroflot.calculateCivilCapacity());
         System.out.println("Full civil carrying capacity: " + aeroflot.calculateFullCivilCarryingCapacity());
         System.out.println("Full military carrying capacity: " + aeroflot.calculateFullMilitaryCarryingCapacity());
 
         System.out.println("===============================");
         System.out.println("All air vehicle sorting by range:");
-        aeroflot.sortAirVehiclesByRange().forEach(a -> System.out.println(a.toString()));
-        System.out.println("===============================");
+        aeroflot.sortAirVehiclesByRange().forEach(a -> System.out.println(a.getName()));
 
         System.out.println("===============================");
         System.out.println("All air vehicle with range more or equals than 500 km:");
         AirVehicle searchedParameters = new CivilAirVehicle().setRange(500);
-        aeroflot.getAirVehicleByParameters(searchedParameters).forEach(a -> System.out.println(a.toString()));
+        aeroflot.getAirVehicleByParameters(searchedParameters).forEach(a -> System.out.println(a.getName()));
+
         System.out.println("===============================");
+        System.out.println(aeroflot.getAirVehiclesInfo());
     }
 }
