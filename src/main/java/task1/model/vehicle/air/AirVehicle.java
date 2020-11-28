@@ -91,7 +91,7 @@ public abstract class AirVehicle extends Vehicle implements Flyable {
      */
     @Override
     public String getInfo() {
-        return super.getInfo(name) + "   Type: " + airVehicleType + "\n" +
+        return super.getInfo() + "   Type: " + airVehicleType + "\n" +
                 "   Service Zone: " + serviceZone + "\n" +
                 "   Range: " + range + "\n" +
                 "   Maximum Takeoff Weight: " + maxTakeoffWeight + "\n";
