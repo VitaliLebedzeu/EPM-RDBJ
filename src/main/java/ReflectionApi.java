@@ -101,7 +101,8 @@ public class ReflectionApi {
         return t;
     }
 
-    public static String getClassMetadata(Class<?> clazz) {
+    public static String getClassMetadata(Object object) {
+        Class<?> clazz = object.getClass();
         StringBuilder stringBuilder = new StringBuilder("Class:\n");
         Arrays.stream(clazz.getDeclaredAnnotations()).forEach(a -> stringBuilder.append(a.toString()).append(StringUtils.LF));
         stringBuilder.append(Modifier.toString(clazz.getModifiers())).append(StringUtils.SPACE).append(clazz.getSimpleName()).append(" extends ")
