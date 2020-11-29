@@ -28,8 +28,9 @@ public class ReflectionMain {
 
         AirCompany aeroflot = (AirCompany) ReflectionApi.createClass("task1.model.AirCompany", "Aeroflot");
         ReflectionApi.invokeVoidClassMethod(aeroflot, "addAirVehicle", airbus320, twinRanger, phantom, falcon, hind, quad);
-        
+
         System.out.println((String) ReflectionApi.invokeClassMethod(aeroflot, "getAirVehiclesInfo"));
 
+        System.out.println(ReflectionApi.getClassMetadata(falcon.getClass()));
     }
 }
