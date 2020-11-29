@@ -122,7 +122,7 @@ public abstract class AirVehicle extends Vehicle implements Flyable {
     }
 
     @ThisCodeSmells()
-    @ThisCodeSmells(author = "Yauheni Barbuk")
+    @ThisCodeSmells(reviewer = "Yauheni Barbuk")
     @ProdCode
     private double calculateCarryingCapacity() throws AirVehicleCarryingCapacityException {
         if (maxTakeoffWeight < emptyWeight) {

@@ -1,12 +1,16 @@
 package task1.annotation;
 
 import java.lang.annotation.Repeatable;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
-@interface ThisCodeSmellsAuthor {
-    ThisCodeSmells[] value();
-}
-
-@Repeatable(ThisCodeSmellsAuthor.class)
+@Repeatable(ThisCodeSmells.List.class)
+@Retention(RetentionPolicy.RUNTIME)
 public @interface ThisCodeSmells {
-    String author() default "Ivan Kalinin";
+    String reviewer() default "Ivan Kalinin";
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @interface List {
+        ThisCodeSmells[] value();
+    }
 }
