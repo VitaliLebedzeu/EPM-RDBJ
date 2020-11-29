@@ -1,7 +1,8 @@
-import task1.model.AirCompany;
-import task1.model.vehicle.air.AirVehicleType;
-import task1.model.vehicle.air.CivilAirVehicle;
-import task1.model.vehicle.air.MilitaryAirVehicle;
+import model.AirCompany;
+import model.vehicle.air.AirVehicleType;
+import model.vehicle.air.CivilAirVehicle;
+import model.vehicle.air.MilitaryAirVehicle;
+import tool.ReflectionApi;
 
 public class ReflectionMain {
 
