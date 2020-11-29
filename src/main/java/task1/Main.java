@@ -1,5 +1,7 @@
 package task1;
 
+import task1.annotation.ProdCode;
+import task1.handler.ProdCodeHandler;
 import task1.handler.ThisCodeSmellsHandler;
 import task1.model.AirCompany;
 import task1.model.vehicle.air.AirVehicle;
@@ -11,6 +13,16 @@ import task1.model.vehicle.air.MilitaryAirVehicleType;
 public class Main {
 
     public static void main(String[] args) {
+        ProdCodeHandler prodCodeHandler = new ProdCodeHandler();
+        try {
+            prodCodeHandler.initializeObject("task1.Main");
+        } catch (Exception e) {
+            System.err.printf("Class '%s' not found", e.getMessage());
+        }
+    }
+
+    @ProdCode
+    private static void run() {
         MilitaryAirVehicle phantom = new MilitaryAirVehicle().setAirVehicleType(AirVehicleType.PLANE).setMilitaryType(MilitaryAirVehicleType.FIGHTER)
                                                              .setName("F-4").setRange(680).setEmptyWeight(30).setMaxTakeoffWeight(0);
         MilitaryAirVehicle falcon = new MilitaryAirVehicle().setAirVehicleType(AirVehicleType.PLANE).setMilitaryType(MilitaryAirVehicleType.FIGHTER)
