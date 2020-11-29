@@ -1,5 +1,6 @@
 package task1.model.vehicle.air;
 
+import task1.annotation.ProdCode;
 import task1.exception.vehicle.VehicleEmptyWeightException;
 import task1.exception.vehicle.air.AirVehicleMaxTakeoffWeightException;
 import task1.exception.vehicle.air.AirVehicleRangeException;
@@ -101,6 +102,7 @@ public class CivilAirVehicle extends AirVehicle {
      * @return String that contains all parameters including ancestor's
      */
     @Override
+    @ProdCode
     public String getInfo() {
         return super.getInfo() + "   Capacity: " + capacity + "\n";
     }

@@ -1,6 +1,9 @@
 package task1.model;
 
+import org.apache.commons.lang3.StringUtils;
 import task1.InfoHarvester;
+import task1.annotation.ThisCodeSmells;
+import task1.annotation.UseArrayList;
 import task1.model.vehicle.air.AirVehicle;
 import task1.model.vehicle.air.CivilAirVehicle;
 
@@ -29,14 +32,17 @@ public class AirCompany {
         this.name = name;
     }
 
+    @UseArrayList
     public List<AirVehicle> getAirVehicles() {
         return airVehicles;
     }
 
+    @UseArrayList
     public void setAirVehicles(List<AirVehicle> airVehicles) {
         this.airVehicles = airVehicles;
     }
 
+    @UseArrayList
     public void addAirVehicle(AirVehicle... airVehicles) {
         this.airVehicles.addAll(Arrays.asList(airVehicles));
     }
@@ -63,6 +69,7 @@ public class AirCompany {
                 '}';
     }
 
+    @UseArrayList
     public int calculateCivilCapacity() {
         return airVehicles.stream()
                           .filter(airVehicle -> airVehicle.getServiceZone().equals(ServiceZone.CIVIL))
@@ -70,9 +77,12 @@ public class AirCompany {
                           .sum();
     }
 
+    @ThisCodeSmells()
     public String getAirVehiclesInfo() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Air Company: ").append(getName()).append(StringUtils.SPACE);
         InfoHarvester<AirVehicle> infoHarvester = (List<AirVehicle> x) -> x.stream().map(AirVehicle::getInfo).collect(Collectors.joining());
-        return infoHarvester.harvest(airVehicles);
+        return stringBuilder.append(infoHarvester.harvest(airVehicles)).toString();
     }
 
     /**
@@ -80,6 +90,7 @@ public class AirCompany {
      * @deprecated Please use {@link #calculateFullCivilCarryingCapacity()} or {@link #calculateFullMilitaryCarryingCapacity()}
      */
     @Deprecated
+    @UseArrayList
     public double calculateFullCarryingCapacity() {
         return airVehicles.stream().mapToDouble(AirVehicle::getCarryingCapacity).sum();
     }
@@ -92,16 +103,19 @@ public class AirCompany {
         return calculateFullCarryingCapacity(ServiceZone.MILITARY);
     }
 
+    @UseArrayList
     public List<AirVehicle> sortAirVehiclesByRange() {
         return airVehicles.stream().sorted(Comparator.comparingInt(AirVehicle::getRange)).collect(Collectors.toList());
     }
 
+    @UseArrayList
     public List<AirVehicle> getAirVehicleByParameters(AirVehicle airVehicle) {
         return airVehicles.stream()
                           .filter(a -> a.getRange() >= airVehicle.getRange())
                           .filter(a -> a.getCarryingCapacity() > airVehicle.getCarryingCapacity()).collect(Collectors.toList());
     }
 
+    @UseArrayList
     private double calculateFullCarryingCapacity(ServiceZone serviceZone) {
         return airVehicles.stream()
                           .filter(airVehicle -> airVehicle.getServiceZone().equals(serviceZone))
