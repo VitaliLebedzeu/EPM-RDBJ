@@ -1,5 +1,6 @@
 package task1;
 
+import task1.handler.ThisCodeSmellsHandler;
 import task1.model.AirCompany;
 import task1.model.vehicle.air.AirVehicle;
 import task1.model.vehicle.air.AirVehicleType;
@@ -42,5 +43,8 @@ public class Main {
 
         System.out.println("===============================");
         System.out.println(aeroflot.getAirVehiclesInfo());
+
+        ThisCodeSmellsHandler thisCodeSmellsHandler = new ThisCodeSmellsHandler();
+        thisCodeSmellsHandler.printSmeltCodeByObject(aeroflot);
     }
 }
