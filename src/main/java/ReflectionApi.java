@@ -103,22 +103,18 @@ public class ReflectionApi {
 
     public static String getClassMetadata(Class<?> clazz) {
         StringBuilder stringBuilder = new StringBuilder("Class:\n");
-        Arrays.stream(clazz.getAnnotations()).forEach(a -> stringBuilder.append(a.toString()).append(StringUtils.LF));
         Arrays.stream(clazz.getDeclaredAnnotations()).forEach(a -> stringBuilder.append(a.toString()).append(StringUtils.LF));
         stringBuilder.append(Modifier.toString(clazz.getModifiers())).append(StringUtils.SPACE).append(clazz.getSimpleName()).append(" extends ")
                      .append(clazz.getSuperclass().getSimpleName()).append(" implements ");
         Arrays.stream(clazz.getInterfaces()).forEach(i -> stringBuilder.append(i.getSimpleName()));
 
         stringBuilder.append(StringUtils.LF).append("Class Fields:\n");
-        stringBuilder.append(getFieldsMetadata(clazz.getFields()));
         stringBuilder.append(getFieldsMetadata(clazz.getDeclaredFields()));
 
         stringBuilder.append("Class Constructors:\n");
-        stringBuilder.append(getConstructorsMetadata(clazz.getConstructors()));
         stringBuilder.append(getConstructorsMetadata(clazz.getDeclaredConstructors()));
 
         stringBuilder.append(StringUtils.LF).append("Class Methods:\n");
-        stringBuilder.append(getMethodsMetadata(clazz.getMethods()));
         stringBuilder.append(getMethodsMetadata(clazz.getDeclaredMethods())).append(StringUtils.LF);
 
         Class<?> superClass = clazz.getSuperclass();
@@ -237,7 +233,7 @@ public class ReflectionApi {
     private static String getFieldsMetadata(Field[] fields) {
         StringBuilder stringBuilder = new StringBuilder();
         Arrays.stream(fields).forEach(f -> {
-            Arrays.stream(f.getAnnotations()).forEach(a -> stringBuilder.append(a.toString()).append(StringUtils.LF));
+            f.setAccessible(true);
             Arrays.stream(f.getDeclaredAnnotations()).forEach(a -> stringBuilder.append(a.toString()).append(StringUtils.LF));
             stringBuilder.append(Modifier.toString(f.getModifiers())).append(StringUtils.SPACE).append(f.getType().getSimpleName())
                          .append(StringUtils.SPACE).append(f.getName()).append(StringUtils.LF);
@@ -248,7 +244,7 @@ public class ReflectionApi {
     private static String getConstructorsMetadata(Constructor<?>[] constructors) {
         StringBuilder stringBuilder = new StringBuilder();
         Arrays.stream(constructors).forEach(c -> {
-            Arrays.stream(c.getAnnotations()).forEach(a -> stringBuilder.append(a.toString()).append(StringUtils.LF));
+            c.setAccessible(true);
             Arrays.stream(c.getDeclaredAnnotations()).forEach(a -> stringBuilder.append(a.toString()).append(StringUtils.LF));
             stringBuilder.append(Modifier.toString(c.getModifiers())).append(StringUtils.SPACE).append(c.getName()).append("(");
             Arrays.stream(c.getParameters())
@@ -261,7 +257,7 @@ public class ReflectionApi {
     public static String getMethodsMetadata(Method[] methods) {
         StringBuilder stringBuilder = new StringBuilder();
         Arrays.stream(methods).forEach(m -> {
-            Arrays.stream(m.getAnnotations()).forEach(a -> stringBuilder.append(a.toString()).append(StringUtils.LF));
+            m.setAccessible(true);
             Arrays.stream(m.getDeclaredAnnotations()).forEach(a -> stringBuilder.append(a.toString()).append(StringUtils.LF));
             stringBuilder.append(Modifier.toString(m.getModifiers())).append(StringUtils.SPACE).append(m.getReturnType().getSimpleName())
                          .append(StringUtils.SPACE).append(m.getName()).append("(");
