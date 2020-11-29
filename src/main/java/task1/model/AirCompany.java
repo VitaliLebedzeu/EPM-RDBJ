@@ -78,6 +78,7 @@ public class AirCompany {
     }
 
     @ThisCodeSmells()
+    @ThisCodeSmells(reviewer = "Vitali Lebedzeu")
     public String getAirVehiclesInfo() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Air Company: ").append(getName()).append(StringUtils.SPACE);

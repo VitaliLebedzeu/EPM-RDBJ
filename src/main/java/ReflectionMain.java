@@ -31,6 +31,6 @@ public class ReflectionMain {
 
         System.out.println((String) ReflectionApi.invokeClassMethod(aeroflot, "getAirVehiclesInfo"));
 
-        System.out.println(ReflectionApi.getClassMetadata(falcon.getClass()));
+        System.out.println(ReflectionApi.getClassMetadata(falcon));
     }
 }
