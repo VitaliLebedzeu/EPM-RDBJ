@@ -6,7 +6,7 @@ public class VehicleParametersException extends RuntimeException {
 
     protected final Vehicle vehicle;
 
-    private static final String MESSAGE = "[VehicleParametersException] The task1.model '%s' has wrong parameters";
+    private static final String MESSAGE = "[VehicleParametersException] The '%s' has wrong parameters";
 
     public VehicleParametersException(Vehicle vehicle) {
         this.vehicle = vehicle;

@@ -5,7 +5,7 @@ import model.vehicle.air.AirVehicle;
 
 public class AirVehicleMaxTakeoffWeightException extends VehicleParametersException {
 
-    private static final String MESSAGE = "[AirVehicleMaxTakeoffException] The task1.model '%s' should have positive max takeoff wight parameter.";
+    private static final String MESSAGE = "[AirVehicleMaxTakeoffException] The '%s' should have positive max takeoff wight parameter.";
 
     public AirVehicleMaxTakeoffWeightException(AirVehicle airVehicle) {
         super(airVehicle);

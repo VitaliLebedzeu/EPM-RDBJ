@@ -5,7 +5,7 @@ import model.vehicle.air.AirVehicle;
 
 public class AirVehicleRangeException extends VehicleParametersException {
 
-    private static final String MESSAGE = "[AirVehicleRangeException] The task1.model '%s' should have positive range parameter.";
+    private static final String MESSAGE = "[AirVehicleRangeException] The '%s' should have positive range parameter.";
 
     public AirVehicleRangeException(AirVehicle airVehicle) {
         super(airVehicle);

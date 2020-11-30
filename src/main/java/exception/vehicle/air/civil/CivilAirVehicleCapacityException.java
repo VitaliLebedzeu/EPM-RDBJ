@@ -5,7 +5,7 @@ import model.vehicle.air.CivilAirVehicle;
 
 public class CivilAirVehicleCapacityException extends VehicleParametersException {
 
-    private static final String MESSAGE = "[CivilAirVehicleCapacityException] The task1.model '%s' should have positive capacity parameter.";
+    private static final String MESSAGE = "[CivilAirVehicleCapacityException] The '%s' should have positive capacity parameter.";
 
     public CivilAirVehicleCapacityException(CivilAirVehicle civilAirVehicle) {
         super(civilAirVehicle);
