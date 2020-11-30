@@ -1,16 +1,11 @@
 package model.vehicle;
 
-import annotation.ProdCode;
-import annotation.UseStackOnly;
-
 import java.util.Objects;
 
 public abstract class Vehicle {
 
     protected String manufacturer;
-    @UseStackOnly
     protected String name;
-    @UseStackOnly
     protected double emptyWeight;
 
     protected Vehicle() {
@@ -56,7 +51,6 @@ public abstract class Vehicle {
      * This method return detailed vehicle info
      * @return String that contains all parameters
      */
-    @ProdCode
     public String getInfo() {
         return "\n" + name + "Specification:\n" + "   Name: " + name + "\n" +
                 "   Manufacturer: " + manufacturer + "\n" +

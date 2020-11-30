@@ -1,6 +1,5 @@
 package model.vehicle.air;
 
-import annotation.ProdCode;
 import exception.vehicle.VehicleEmptyWeightException;
 import exception.vehicle.air.AirVehicleMaxTakeoffWeightException;
 import exception.vehicle.air.AirVehicleRangeException;
@@ -102,7 +101,6 @@ public class MilitaryAirVehicle extends AirVehicle {
      * @return String that contains all parameters including ancestor's
      */
     @Override
-    @ProdCode
     public String getInfo() {
         return super.getInfo() + "   Military Type: " + militaryType + "\n";
     }

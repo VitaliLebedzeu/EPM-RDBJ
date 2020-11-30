@@ -1,8 +1,6 @@
 package model.vehicle.air;
 
-import annotation.ProdCode;
 import annotation.ThisCodeSmells;
-import annotation.UseStackOnly;
 import exception.vehicle.air.AirVehicleCarryingCapacityException;
 import model.ServiceZone;
 import model.vehicle.Vehicle;
@@ -11,12 +9,9 @@ import java.util.Objects;
 
 public abstract class AirVehicle extends Vehicle implements Flyable {
 
-    @UseStackOnly
     protected ServiceZone serviceZone;
-    @UseStackOnly
     protected AirVehicleType airVehicleType;
     protected double maxTakeoffWeight;
-    @UseStackOnly
     protected int range;
 
     private boolean isFlown;
@@ -123,7 +118,6 @@ public abstract class AirVehicle extends Vehicle implements Flyable {
 
     @ThisCodeSmells()
     @ThisCodeSmells(reviewer = "Yauheni Barbuk")
-    @ProdCode
     private double calculateCarryingCapacity() throws AirVehicleCarryingCapacityException {
         if (maxTakeoffWeight < emptyWeight) {
             throw new AirVehicleCarryingCapacityException(this);
