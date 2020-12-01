@@ -1,7 +1,7 @@
 package tool;
 
+import annotation.ThisCodeSmells;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
 import model.vehicle.air.AirVehicleType;
 import model.vehicle.air.MilitaryAirVehicleType;
 
@@ -9,7 +9,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.Arrays;
 
 public class ReflectionApi {
@@ -47,6 +46,7 @@ public class ReflectionApi {
         }
     }
 
+    @ThisCodeSmells
     public static <C> void setClassField(C c, Class<?> clazz, String fieldName, Object value) {
         Field field = getField(clazz, fieldName);
         if (field == null) {
@@ -62,6 +62,7 @@ public class ReflectionApi {
         }
     }
 
+    @ThisCodeSmells
     @SafeVarargs
     public static <C, V> void invokeVoidClassMethod(C c, String methodName, V... values) {
         Method method = null;
@@ -83,6 +84,7 @@ public class ReflectionApi {
         }
     }
 
+    @ThisCodeSmells
     @SuppressWarnings("unchecked")
     public static <C, T> T invokeClassMethod(C c, String methodName) {
         Method method = null;
@@ -103,32 +105,7 @@ public class ReflectionApi {
         return t;
     }
 
-    public static String getClassMetadata(Object object) {
-        Class<?> clazz = object.getClass();
-        StringBuilder stringBuilder = new StringBuilder("Class:\n");
-        Arrays.stream(clazz.getDeclaredAnnotations()).forEach(a -> stringBuilder.append(a.toString()).append(StringUtils.LF));
-        stringBuilder.append(Modifier.toString(clazz.getModifiers())).append(StringUtils.SPACE).append(clazz.getSimpleName()).append(" extends ")
-                     .append(clazz.getSuperclass().getSimpleName()).append(" implements ");
-        Arrays.stream(clazz.getInterfaces()).forEach(i -> stringBuilder.append(i.getSimpleName()));
-
-        stringBuilder.append(StringUtils.LF).append("Class Fields:\n");
-        stringBuilder.append(getFieldsMetadata(clazz.getDeclaredFields()));
-
-        stringBuilder.append("Class Constructors:\n");
-        stringBuilder.append(getConstructorsMetadata(clazz.getDeclaredConstructors()));
-
-        stringBuilder.append(StringUtils.LF).append("Class Methods:\n");
-        stringBuilder.append(getMethodsMetadata(clazz.getDeclaredMethods())).append(StringUtils.LF);
-
-        Class<?> superClass = clazz.getSuperclass();
-        if (superClass.getFields().length != 0 || superClass.getDeclaredFields().length != 0) {
-            stringBuilder.append(getClassMetadata(superClass));
-        }
-
-        return stringBuilder.toString();
-    }
-
-    private static Class<?> getClass(String className) {
+    public static Class<?> getClass(String className) {
         try {
             return Class.forName(className);
         } catch (ClassNotFoundException e) {
@@ -141,6 +118,7 @@ public class ReflectionApi {
         return getClassConstructor(clazz, null);
     }
 
+    @ThisCodeSmells
     private static Constructor<?> getClassConstructor(Class<?> clazz, Class<?> constructorClass) {
         Constructor<?> constructor = null;
         if (clazz == null) {
@@ -159,6 +137,7 @@ public class ReflectionApi {
         return createInstance(constructor, null);
     }
 
+    @ThisCodeSmells
     private static <V> Object createInstance(Constructor<?> constructor, V v) {
         Object object = null;
         if (constructor == null) {
@@ -173,6 +152,7 @@ public class ReflectionApi {
         return object;
     }
 
+    @ThisCodeSmells
     private static Field getField(Class<?> clazz, String fieldName) {
         Field field = null;
         try {
@@ -198,6 +178,7 @@ public class ReflectionApi {
         }
     }
 
+    @ThisCodeSmells
     private static <C> void setAllClassFields(C c, Field[] fields) {
         Arrays.stream(fields).forEach(f -> {
             f.setAccessible(true);
@@ -231,43 +212,5 @@ public class ReflectionApi {
                     setField(c, f, null);
             }
         });
-    }
-
-    private static String getFieldsMetadata(Field[] fields) {
-        StringBuilder stringBuilder = new StringBuilder();
-        Arrays.stream(fields).forEach(f -> {
-            f.setAccessible(true);
-            Arrays.stream(f.getDeclaredAnnotations()).forEach(a -> stringBuilder.append(a.toString()).append(StringUtils.LF));
-            stringBuilder.append(Modifier.toString(f.getModifiers())).append(StringUtils.SPACE).append(f.getType().getSimpleName())
-                         .append(StringUtils.SPACE).append(f.getName()).append(StringUtils.LF);
-        });
-        return stringBuilder.toString();
-    }
-
-    private static String getConstructorsMetadata(Constructor<?>[] constructors) {
-        StringBuilder stringBuilder = new StringBuilder();
-        Arrays.stream(constructors).forEach(c -> {
-            c.setAccessible(true);
-            Arrays.stream(c.getDeclaredAnnotations()).forEach(a -> stringBuilder.append(a.toString()).append(StringUtils.LF));
-            stringBuilder.append(Modifier.toString(c.getModifiers())).append(StringUtils.SPACE).append(c.getName()).append("(");
-            Arrays.stream(c.getParameters())
-                  .forEach(p -> stringBuilder.append(p.getType().getSimpleName()).append(StringUtils.EMPTY).append(p.getName()).append(", "));
-            stringBuilder.append(")");
-        });
-        return stringBuilder.toString();
-    }
-
-    public static String getMethodsMetadata(Method[] methods) {
-        StringBuilder stringBuilder = new StringBuilder();
-        Arrays.stream(methods).forEach(m -> {
-            m.setAccessible(true);
-            Arrays.stream(m.getDeclaredAnnotations()).forEach(a -> stringBuilder.append(a.toString()).append(StringUtils.LF));
-            stringBuilder.append(Modifier.toString(m.getModifiers())).append(StringUtils.SPACE).append(m.getReturnType().getSimpleName())
-                         .append(StringUtils.SPACE).append(m.getName()).append("(");
-            Arrays.stream(m.getParameters())
-                  .forEach(p -> stringBuilder.append(p.getType().getSimpleName()).append(StringUtils.SPACE).append(p.getName()));
-            stringBuilder.append(")").append(StringUtils.LF);
-        });
-        return stringBuilder.toString();
     }
 }
