@@ -4,7 +4,7 @@ import annotation.UseStackOnly;
 import exception.vehicle.VehicleParametersException;
 import model.vehicle.air.AirVehicle;
 
-public class AirVehicleMaxTakeoffWeightException extends VehicleParametersException {
+public final class AirVehicleMaxTakeoffWeightException extends VehicleParametersException {
 
     @UseStackOnly
     private static final String MESSAGE = "[AirVehicleMaxTakeoffException] The '%s' should have positive max takeoff wight parameter.";
