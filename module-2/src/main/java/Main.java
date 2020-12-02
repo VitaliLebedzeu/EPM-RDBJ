@@ -7,7 +7,6 @@ import runner.DefaultRunner;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.Map;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
