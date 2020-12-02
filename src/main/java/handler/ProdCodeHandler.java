@@ -21,13 +21,10 @@ public class ProdCodeHandler {
     }
 
     public void runInNewThread(Method method, Class<?> clazz) {
-        Thread thread = new Thread(() -> {
-            try {
-                method.invoke(clazz);
-            } catch (IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
-            }
-        });
-        thread.start();
+        try {
+            method.invoke(clazz);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 }
