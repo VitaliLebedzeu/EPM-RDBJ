@@ -15,20 +15,33 @@ allprojects {
     }
 }
 
-group 'com.epam.epm-jbmp'
+group 'com.epam.jbmp'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 15
 targetCompatibility = 15
+
+ext {
+    apacheVersion = '3.11'
+    junitVersion = '5.7.0'
+}
+
 
 subprojects {
     apply plugin: 'io.spring.dependency-management'
 
     dependencyManagement {
         dependencies {
-            dependencySet(group: 'org.apache.commons', version: '3.11') {
+            dependencySet(group: 'org.apache.commons', version: apacheVersion) {
                 entry 'commons-lang3'
             }
+            dependencySet(group: 'org.junit.jupiter', version: junitVersion) {
+                entry 'junit-jupiter'
+                entry 'junit-jupiter-api'
+                entry 'junit-vintage-engine'
+
+            }
+
         }
     }
 }
