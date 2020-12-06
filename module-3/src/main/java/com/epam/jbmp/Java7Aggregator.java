@@ -1,13 +1,13 @@
 package com.epam.jbmp;
 
+import com.epam.jbmp.comparator.PairDecreaseComparatorByValueAndAlphabeticallyOrder;
+import com.epam.jbmp.comparator.StringIncreaseComparatorByLengthAndAlphabeticallyOrder;
+import javafx.util.Pair;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-
-import javafx.util.Pair;
-
-import org.apache.commons.lang3.StringUtils;
 
 public class Java7Aggregator implements Aggregator {
 
@@ -72,25 +72,5 @@ public class Java7Aggregator implements Aggregator {
             }
         }
         return false;
-    }
-
-    private static class PairDecreaseComparatorByValueAndAlphabeticallyOrder implements Comparator<Pair<String, Long>> {
-
-        @Override
-        public int compare(Pair<String, Long> p1, Pair<String, Long> p2) {
-            String pairKey1 = p1.getKey();
-            String pairKey2 = p2.getKey();
-            return (pairKey1.length() == pairKey2.length()) ? pairKey1.compareTo(pairKey2) : (int) (p1.getValue() - p2.getValue());
-        }
-    }
-
-    private static class StringIncreaseComparatorByLengthAndAlphabeticallyOrder implements Comparator<String> {
-
-        @Override
-        public int compare(String s1, String s2) {
-            int length1 = s1.length();
-            int length2 = s2.length();
-            return (length1 == length2) ? s1.compareTo(s2) : length1 - length2;
-        }
     }
 }
