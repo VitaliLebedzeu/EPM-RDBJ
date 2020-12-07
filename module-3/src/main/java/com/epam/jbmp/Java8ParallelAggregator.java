@@ -17,10 +17,9 @@ public class Java8ParallelAggregator implements Aggregator {
     public List<Pair<String, Long>> getMostFrequentWords(List<String> words, long limit) {
         Map<String, Long> frequentWordsTable = words.parallelStream().collect(Collectors.groupingBy(String::toString, Collectors.counting()));
         List<Pair<String, Long>> frequentWords = frequentWordsTable.entrySet().parallelStream().map(e -> new Pair<>(e.getKey(), e.getValue()))
-                                                                   .sorted((p1, p2) ->
-                                                                           (p1.getKey().length() == p2.getKey().length())
-                                                                                   ? p1.getKey().compareTo(p2.getKey())
-                                                                                   : (int) (p2.getValue() - p1.getValue()))
+                                                                   .sorted((p1, p2) -> p2.getValue() - p1.getValue() == 0
+                                                                           ? p1.getKey().compareTo(p2.getKey())
+                                                                           : (int) (p2.getValue() - p1.getValue()))
                                                                    .collect(Collectors.toList());
         return (frequentWords.size() < limit) ? frequentWords : frequentWords.subList(0, (int) limit);
     }
