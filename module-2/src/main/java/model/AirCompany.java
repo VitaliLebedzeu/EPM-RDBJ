@@ -1,17 +1,16 @@
 package model;
 
-import org.apache.commons.lang3.StringUtils;
-import functional.InfoHarvester;
 import annotation.ThisCodeSmells;
 import annotation.UseArrayList;
 import model.vehicle.air.AirVehicle;
 import model.vehicle.air.CivilAirVehicle;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class AirCompany {
@@ -44,7 +43,7 @@ public class AirCompany {
 
     @UseArrayList
     public void addAirVehicle(AirVehicle... airVehicles) {
-        this.airVehicles.addAll(Arrays.asList(airVehicles));
+        this.airVehicles.addAll(List.of(airVehicles));
     }
 
     @Override
@@ -80,14 +79,13 @@ public class AirCompany {
     @ThisCodeSmells()
     @ThisCodeSmells(reviewer = "Vitali Lebedzeu")
     public String getAirVehiclesInfo() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Air Company: ").append(getName()).append(StringUtils.SPACE);
-        InfoHarvester<AirVehicle> infoHarvester = (List<AirVehicle> x) -> x.stream().map(AirVehicle::getInfo).collect(Collectors.joining());
-        return stringBuilder.append(infoHarvester.harvest(airVehicles)).toString();
+        Function<List<AirVehicle>, String> infoHarvester = (List<AirVehicle> x) -> x.stream().map(AirVehicle::getInfo).collect(Collectors.joining());
+        return "Air Company: " + getName() + StringUtils.LF + infoHarvester.apply(airVehicles);
     }
 
     /**
      * This method is not specified by Service Zone
+     *
      * @deprecated Please use {@link #calculateFullCivilCarryingCapacity()} or {@link #calculateFullMilitaryCarryingCapacity()}
      */
     @Deprecated

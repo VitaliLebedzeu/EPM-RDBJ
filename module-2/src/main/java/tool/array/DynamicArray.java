@@ -2,17 +2,21 @@ package tool.array;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class DynamicArray<R> {
 
-    private Object[] objects;
+    private static final int DEFAULT_SIZE = 10;
 
+    private R[] objects;
+
+    @SuppressWarnings("unchecked")
     public DynamicArray(int n) {
-        objects = new Object[n];
+        objects = (R[]) new Object[n];
     }
 
     public DynamicArray() {
-        this(10);
+        this(DEFAULT_SIZE);
     }
 
     public void add(R r) {
@@ -34,24 +38,15 @@ public class DynamicArray<R> {
         }
     }
 
-    @SuppressWarnings("unchecked")
     public R get(int index) {
         if (objects.length <= index) {
             throw new ArrayIndexOutOfBoundsException("Index: " + index + ", Size: " + objects.length);
         }
-        return (R) objects[index];
+        return objects[index];
     }
 
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder("[");
-        for (int i = 0; i < objects.length; i++) {
-            if (i == objects.length - 1) {
-                stringBuilder.append(objects[i]);
-                break;
-            }
-            stringBuilder.append(objects[i]).append(", ");
-        }
-        return stringBuilder.append("]").toString();
+        return Arrays.stream(objects).map(Object::toString).collect(Collectors.joining(", ", "[", "]"));
     }
 
     private long getElementsCount() {

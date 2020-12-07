@@ -15,6 +15,6 @@ public final class AirVehicleRangeException extends VehicleParametersException {
 
     @Override
     public String getMessage() {
-        return String.format(MESSAGE, ((AirVehicle) vehicle).getRange());
+        return String.format(MESSAGE, vehicle.getName());
     }
 }

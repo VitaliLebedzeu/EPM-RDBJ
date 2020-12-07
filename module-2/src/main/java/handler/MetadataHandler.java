@@ -4,76 +4,93 @@ import annotation.ThisCodeSmells;
 import org.apache.commons.lang3.StringUtils;
 import tool.ReflectionApi;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Parameter;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class MetadataHandler {
 
-    public String getClassMetadata(String classPath) {
+    private final List<String> fullMetadata;
+
+    public MetadataHandler() {
+        this.fullMetadata = new ArrayList<>();
+    }
+
+    public List<String> getFullMetadata() {
+        return fullMetadata;
+    }
+
+    public void collectClassMetadata(String classPath) {
         Class<?> clazz = ReflectionApi.getClass(classPath);
-        StringBuilder stringBuilder = new StringBuilder("Class:\n");
+        String metadata = "Class:" + StringUtils.LF;
         if (clazz != null) {
-            Arrays.stream(clazz.getDeclaredAnnotations()).forEach(a -> stringBuilder.append(a.toString()).append(StringUtils.LF));
-            stringBuilder.append(Modifier.toString(clazz.getModifiers())).append(StringUtils.SPACE).append(clazz.getSimpleName()).append(" extends ");
+            metadata += getAnnotationsMetadata(clazz.getDeclaredAnnotations());
+            metadata += Modifier.toString(clazz.getModifiers()) + StringUtils.SPACE + clazz.getSimpleName();
             Class<?> superClass = clazz.getSuperclass();
             if (superClass != null) {
-                stringBuilder.append(clazz.getSuperclass().getSimpleName()).append(" implements ");
+                metadata += " extends " + clazz.getSuperclass().getSimpleName();
             }
-            Arrays.stream(clazz.getInterfaces()).forEach(i -> stringBuilder.append(i.getSimpleName()));
-
-            stringBuilder.append(StringUtils.LF).append("Class Fields:\n");
-            stringBuilder.append(getFieldsMetadata(clazz.getDeclaredFields()));
-
-            stringBuilder.append("Class Constructors:\n");
-            stringBuilder.append(getConstructorsMetadata(clazz.getDeclaredConstructors()));
-
-            stringBuilder.append("Class Methods:\n");
-            stringBuilder.append(getMethodsMetadata(clazz.getDeclaredMethods())).append(StringUtils.LF);
+            Class<?>[] interfaces = clazz.getInterfaces();
+            if (interfaces.length != 0) {
+                metadata += Arrays.stream(interfaces).map(Class::getSimpleName)
+                                  .collect(Collectors.joining(StringUtils.SPACE, " implements ", StringUtils.EMPTY));
+            }
+            metadata += getFieldsMetadata(clazz.getDeclaredFields());
+            metadata += getConstructorsMetadata(clazz.getDeclaredConstructors());
+            metadata += getMethodsMetadata(clazz.getDeclaredMethods());
         }
-        return stringBuilder.toString();
+        fullMetadata.add(metadata + StringUtils.LF + StringUtils.LF);
     }
 
     @ThisCodeSmells
     private static String getFieldsMetadata(Field[] fields) {
-        StringBuilder stringBuilder = new StringBuilder();
-        Arrays.stream(fields).forEach(f -> {
+        return fields.length == 0 ? StringUtils.EMPTY
+                : Arrays.stream(fields).map(f -> {
             f.setAccessible(true);
-            Arrays.stream(f.getDeclaredAnnotations()).forEach(a -> stringBuilder.append(a.toString()).append(StringUtils.LF));
-            stringBuilder.append(Modifier.toString(f.getModifiers())).append(StringUtils.SPACE).append(f.getType().getSimpleName())
-                         .append(StringUtils.SPACE).append(f.getName()).append(StringUtils.LF);
-        });
-        return stringBuilder.toString();
+            String metadata = getAnnotationsMetadata(f.getDeclaredAnnotations());
+            metadata += Modifier.toString(f.getModifiers()) + StringUtils.SPACE + f.getType().getSimpleName() + StringUtils.SPACE + f.getName();
+            return metadata;
+        }).collect(Collectors.joining(StringUtils.LF, StringUtils.LF, StringUtils.EMPTY));
     }
 
     @ThisCodeSmells
     private static String getConstructorsMetadata(Constructor<?>[] constructors) {
-        StringBuilder stringBuilder = new StringBuilder();
-        Arrays.stream(constructors).forEach(c -> {
+        return constructors.length == 0 ? StringUtils.EMPTY
+                : Arrays.stream(constructors).map(c -> {
             c.setAccessible(true);
-            Arrays.stream(c.getDeclaredAnnotations()).forEach(a -> stringBuilder.append(a.toString()).append(StringUtils.LF));
-            stringBuilder.append(Modifier.toString(c.getModifiers())).append(StringUtils.SPACE).append(c.getName()).append("(");
-            Arrays.stream(c.getParameters())
-                  .forEach(p -> stringBuilder.append(p.getType().getSimpleName()).append(StringUtils.EMPTY).append(p.getName()).append(", "));
-            stringBuilder.append(")").append(StringUtils.LF);;
-        });
-        return stringBuilder.toString();
+            String metadata = getAnnotationsMetadata(c.getDeclaredAnnotations());
+            metadata += Modifier.toString(c.getModifiers()) + StringUtils.SPACE + c.getName();
+            metadata += getParametersMetadata(c.getParameters());
+            return metadata;
+        }).collect(Collectors.joining(StringUtils.LF, StringUtils.LF, StringUtils.EMPTY));
     }
 
     @ThisCodeSmells
     public static String getMethodsMetadata(Method[] methods) {
-        StringBuilder stringBuilder = new StringBuilder();
-        Arrays.stream(methods).forEach(m -> {
+        return methods.length == 0 ? StringUtils.EMPTY
+                : Arrays.stream(methods).map(m -> {
             m.setAccessible(true);
-            Arrays.stream(m.getDeclaredAnnotations()).forEach(a -> stringBuilder.append(a.toString()).append(StringUtils.LF));
-            stringBuilder.append(Modifier.toString(m.getModifiers())).append(StringUtils.SPACE).append(m.getReturnType().getSimpleName())
-                         .append(StringUtils.SPACE).append(m.getName()).append("(");
-            Arrays.stream(m.getParameters())
-                  .forEach(p -> stringBuilder.append(p.getType().getSimpleName()).append(StringUtils.SPACE).append(p.getName()));
-            stringBuilder.append(")").append(StringUtils.LF);
-        });
-        return stringBuilder.toString();
+            String metadata = getAnnotationsMetadata(m.getDeclaredAnnotations());
+            metadata += Modifier.toString(m.getModifiers()) + StringUtils.SPACE + m.getReturnType().getSimpleName() + StringUtils.SPACE + m.getName();
+            metadata += getParametersMetadata(m.getParameters());
+            return metadata;
+        }).collect(Collectors.joining(StringUtils.LF, StringUtils.LF, StringUtils.EMPTY));
+    }
+
+    private static String getAnnotationsMetadata(Annotation[] annotations) {
+        return annotations.length == 0 ? StringUtils.EMPTY
+                : Arrays.stream(annotations).map(Annotation::toString).collect(Collectors.joining(StringUtils.LF, StringUtils.EMPTY, StringUtils.LF));
+    }
+
+    private static String getParametersMetadata(Parameter[] parameters) {
+        return Arrays.stream(parameters).map(p -> p.getType().getSimpleName() + StringUtils.SPACE + p.getName())
+                     .collect(Collectors.joining(StringUtils.SPACE, "(", ")"));
     }
 }

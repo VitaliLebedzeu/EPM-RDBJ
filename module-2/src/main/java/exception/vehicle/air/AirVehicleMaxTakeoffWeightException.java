@@ -15,6 +15,6 @@ public final class AirVehicleMaxTakeoffWeightException extends VehicleParameters
 
     @Override
     public String getMessage() {
-        return String.format(MESSAGE, ((AirVehicle) vehicle).getMaxTakeoffWeight());
+        return String.format(MESSAGE, vehicle.getName());
     }
 }

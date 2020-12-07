@@ -3,7 +3,6 @@ package handler;
 import annotation.ProdCode;
 import tool.ReflectionApi;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class ProdCodeHandler {
@@ -14,17 +13,9 @@ public class ProdCodeHandler {
             for (Method method : clazz.getDeclaredMethods()) {
                 if (method.isAnnotationPresent(ProdCode.class)) {
                     method.setAccessible(true);
-                    runInNewThread(method, clazz);
+                    ReflectionApi.invokeMethod(method, clazz);
                 }
             }
-        }
-    }
-
-    public void runInNewThread(Method method, Class<?> clazz) {
-        try {
-            method.invoke(clazz);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
         }
     }
 }

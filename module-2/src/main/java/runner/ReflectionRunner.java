@@ -5,15 +5,13 @@ import model.AirCompany;
 import model.vehicle.air.AirVehicleType;
 import model.vehicle.air.CivilAirVehicle;
 import model.vehicle.air.MilitaryAirVehicle;
-import org.apache.commons.lang3.StringUtils;
 import tool.ReflectionApi;
 
 public class ReflectionRunner {
 
     @ProdCode
-    public static void run() {
-        StringBuilder stringBuilder = new StringBuilder("Reflection Runner: START").append(StringUtils.LF);
-        stringBuilder.append(DefaultRunner.DELIMITER).append(StringUtils.LF);
+    private static void run() {
+        String log = "Reflection Runner: START" + DefaultRunner.DELIMITER;
 
         CivilAirVehicle airbus320 = (CivilAirVehicle) ReflectionApi.createClass("model.vehicle.air.CivilAirVehicle");
         CivilAirVehicle twinRanger = (CivilAirVehicle) ReflectionApi.createClass("model.vehicle.air.CivilAirVehicle");
@@ -24,6 +22,7 @@ public class ReflectionRunner {
 
         ReflectionApi.setClassField(airbus320, airbus320.getClass(), "airVehicleType", AirVehicleType.PLANE);
         ReflectionApi.setClassField(airbus320, airbus320.getClass(), "name", "Airbus A320");
+        ReflectionApi.setClassField(airbus320, airbus320.getClass(), "manufacturer", "Airbus");
         ReflectionApi.setClassField(airbus320, airbus320.getClass(), "range", 3300);
         ReflectionApi.setClassField(airbus320, airbus320.getClass(), "emptyWeight", 37.23);
         ReflectionApi.setClassField(airbus320, airbus320.getClass(), "maxTakeoffWeight", 57.13);
@@ -38,8 +37,7 @@ public class ReflectionRunner {
         AirCompany aeroflot = (AirCompany) ReflectionApi.createClass("model.AirCompany", "Aeroflot");
         ReflectionApi.invokeVoidClassMethod(aeroflot, "addAirVehicle", airbus320, twinRanger, phantom, falcon, hind, quad);
 
-        stringBuilder.append((String) ReflectionApi.invokeClassMethod(aeroflot, "getAirVehiclesInfo"));
-
-        System.out.println(stringBuilder.toString());
+        log += ReflectionApi.invokeClassMethod(aeroflot, "getAirVehiclesInfo");
+        System.out.println(log);
     }
 }

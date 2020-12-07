@@ -1,18 +1,12 @@
 package exception.vehicle.air.civil;
 
-import exception.vehicle.VehicleParametersException;
 import model.vehicle.air.CivilAirVehicle;
 
-public final class CivilAirVehicleCapacityException extends VehicleParametersException {
+public final class CivilAirVehicleCapacityException extends IllegalArgumentException  {
 
     private static final String MESSAGE = "[CivilAirVehicleCapacityException] The '%s' should have positive capacity parameter.";
 
     public CivilAirVehicleCapacityException(CivilAirVehicle civilAirVehicle) {
-        super(civilAirVehicle);
-    }
-
-    @Override
-    public String getMessage() {
-        return String.format(MESSAGE, vehicle.getName());
+        super(String.format(MESSAGE, civilAirVehicle.getName()));
     }
 }

@@ -7,9 +7,11 @@ import runner.DefaultRunner;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -24,25 +26,19 @@ public class Main {
 
     @ProdCode
     private static void metaDataRunner() {
-        StringBuilder stringBuilder = new StringBuilder("All project metadata:").append(StringUtils.LF);
-        stringBuilder.append(DefaultRunner.DELIMITER).append(StringUtils.LF);
-
         MetadataHandler metadataHandler = new MetadataHandler();
-        initRunner(ROOT_PATH, p -> stringBuilder.append(metadataHandler.getClassMetadata((String) p)));
-
-        System.out.println(stringBuilder.toString());
+        initRunner(ROOT_PATH, p -> metadataHandler.collectClassMetadata((String) p));
+        String metadata = metadataHandler.getFullMetadata().stream().map(String::toString).collect(Collectors.joining());
+        System.out.println("All project metadata:" + DefaultRunner.DELIMITER + metadata + StringUtils.LF);
     }
 
     @ProdCode
     private static void codeSmellsRunner() {
-        StringBuilder stringBuilder = new StringBuilder("All smelly code:").append(StringUtils.LF);
-        stringBuilder.append(DefaultRunner.DELIMITER).append(StringUtils.LF);
-
         ThisCodeSmellsHandler thisCodeSmellsHandler = new ThisCodeSmellsHandler();
         initRunner(ROOT_PATH, thisCodeSmellsHandler::collectSmellyCode);
-        thisCodeSmellsHandler.getSortedSmellyCodeTableByVote().forEach((k, v) -> stringBuilder.append(k).append(" - ").append(v).append(StringUtils.LF));
-
-        System.out.println(stringBuilder.toString());
+        String smellCode = thisCodeSmellsHandler.getSortedSmellyCodeTableByVote().entrySet().stream()
+                                                .map(e -> e.getKey() + " - " + e.getValue()).collect(Collectors.joining(StringUtils.LF));
+        System.out.println("All smelly code:" + DefaultRunner.DELIMITER + smellCode + StringUtils.LF);
     }
 
     @SuppressWarnings("unchecked")
