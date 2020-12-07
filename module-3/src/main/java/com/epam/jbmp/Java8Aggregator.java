@@ -1,13 +1,10 @@
 package com.epam.jbmp;
 
-import java.util.HashSet;
+import javafx.util.Pair;
+
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import javafx.util.Pair;
 
 public class Java8Aggregator implements Aggregator {
 
