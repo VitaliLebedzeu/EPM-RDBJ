@@ -1,0 +1,21 @@
+JAVA 7/8 Aggregator conclusion.
+
+1. Method sum() - use for find a sum of integers:
+	Java 7 Aggregator Sum Performance Test (ms):  24
+	Java 8 Aggregator Sum Performance Test (ms):  25
+	Java 7 Parallel Aggregator Sum Performance Test (ms):  347
+	Java 8 Parallel Aggregator Sum Performance Test (ms):  30
+
+2. Method getMostFrequentWords() - use for find words frequency:
+	Java 7 Aggregator Frequency Performance Test (ms):  2
+	Java 8 Aggregator Frequency Performance Test (ms):  17
+	Java 7 Parallel Aggregator Frequency Performance Test (ms):  6
+	Java 8 Parallel Aggregator Frequency Performance Test (ms):  23
+	
+3. Method getDuplicates() - Looks for duplicates (case insensitive, e.g. 'java' equals 'JaVA'):
+	Java 7 Aggregator Duplicates Performance Test (ms):  2
+	Java 8 Aggregator Duplicates Performance Test (ms):  4
+	Java 7 Parallel Aggregator Duplicates Performance Test (ms):  58
+	Java 8 Parallel Aggregator Duplicates Performance Test (ms):  5
+	
+The results of performance tests show that it usless to use any Stream API or implement approach for paralleling tasks that require a simple compute like a sum() or getMostFrequentWords() methods. It is may be more expensive that a simple solutions as in implementation and as for easy readability.
