@@ -2,3 +2,5 @@ rootProject.name = 'epm-jbmp'
 
 include 'module-2'
 include 'module-3'
+include 'module-4'
+
