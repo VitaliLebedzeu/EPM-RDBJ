@@ -1,0 +1,6 @@
+dependencies {
+    implementation project(':services')
+
+    testImplementation project(':utils')
+    testImplementation 'junit:junit'
+}

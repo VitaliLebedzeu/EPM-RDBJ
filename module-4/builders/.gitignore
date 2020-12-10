@@ -1,1 +1,6 @@
+#Ignore Gradle cache
+.gradle
+**/gradle
+
+#Ignore Maven cache
 **/target
