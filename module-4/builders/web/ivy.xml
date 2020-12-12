@@ -1,0 +1,8 @@
+<ivy-module version="1.0">
+    <info organisation="com.builders" module="web" status="integration"/>
+
+    <dependencies>
+        <dependency name="services" rev="latest.integration" conf="default"/>
+        <dependency org="javax.servlet" name="javax.servlet-api" rev="4.0.1"/>
+    </dependencies>
+</ivy-module>

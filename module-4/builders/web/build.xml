@@ -1,0 +1,7 @@
+<project name="web" default="compile">
+    <property name="builders.dir" value="${basedir}/.."/>
+
+    <import file="${builders.dir}/builders.xml"/>
+
+    <target name="package" depends="war"/>
+</project>

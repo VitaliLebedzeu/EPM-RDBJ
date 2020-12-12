@@ -1,0 +1,7 @@
+<ivy-module version="1.0">
+    <info organisation="com.builders" module="services" status="integration"/>
+
+    <dependencies>
+        <dependency name="utils" rev="latest.integration" conf="default"/>
+    </dependencies>
+</ivy-module>

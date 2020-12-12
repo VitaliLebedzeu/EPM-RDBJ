@@ -4,3 +4,7 @@
 
 #Ignore Maven cache
 **/target
+
+#Ignore Ant cache
+**/.build
+**/.lib

@@ -1,0 +1,7 @@
+<ivy-module version="1.0">
+    <info organisation="com.builders" module="utils" status="integration"/>
+
+    <dependencies>
+        <dependency org="junit" name="junit" rev="4.13.1"/>
+    </dependencies>
+</ivy-module>

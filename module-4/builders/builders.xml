@@ -1,0 +1,98 @@
+<project name="builders" xmlns:ivy="antlib:org.apache.ivy.ant">
+    <property name="lib.dir" value="${basedir}/.lib"/>
+    <property name="build.dir" value="${basedir}/.build"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="src.dir" value="${basedir}/src"/>
+    <property name="war.dir" value="${build.dir}/war"/>
+
+    <property name="file.war" value="${build.dir}/${ant.project.name}.war"/>
+
+    <property name="module.version" value="1.0-SNAPSHOT"/>
+
+    <property name="ivy.jar.dir" value="${user.home}/.ivy2/jars"/>
+
+    <target name="load-ivy">
+        <mkdir dir="${ivy.jar.dir}"/>
+        <path id="ivy.lib.path">
+            <fileset dir="${ivy.jar.dir}" includes="*.jar"/>
+        </path>
+        <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
+    </target>
+
+    <target name="clean-lib" description="--> clean the project libraries directory (dependencies)">
+        <delete includeemptydirs="true" dir="${lib.dir}"/>
+    </target>
+
+    <target name="clean-build" description="--> clean the project built files">
+        <delete includeemptydirs="true" dir="${build.dir}"/>
+    </target>
+
+    <target name="clean" depends="clean-build, clean-lib" description="--> clean the project"/>
+
+    <target name="resolve" depends="clean-lib, load-ivy" description="--> resolve and retrieve dependencies with ivy">
+        <mkdir dir="${lib.dir}"/>
+        <ivy:resolve file="${basedir}/ivy.xml"/>
+        <ivy:retrieve pattern="${lib.dir}/[artifact]-[type].[ext]"/>
+    </target>
+
+    <path id="lib.path.id">
+        <fileset dir="${lib.dir}"/>
+    </path>
+
+    <target name="compile" depends="resolve" description="--> compile the project">
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="lib.path.id" debug="true" includeAntRuntime="false"/>
+    </target>
+
+    <path id="test.path.id">
+        <path refid="lib.path.id"/>
+        <path location="${classes.dir}"/>
+    </path>
+
+    <target name="test" depends="compile" description="--> compile and run the project tests">
+        <mkdir dir="${build.dir}/junit"/>
+        <junit printsummary="yes" haltonfailure="no">
+            <classpath refid="test.path.id"/>
+            <formatter type="xml"/>
+            <batchtest fork="yes" todir="${build.dir}/junit">
+                <fileset dir="${src.dir}/test">
+                    <include name="**/**Test**.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+        <junitreport todir="${build.dir}/junit">
+            <fileset dir="${build.dir}/junit">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report todir="${build.dir}/junit" format="frames"/>
+        </junitreport>
+    </target>
+
+    <target name="jar" depends="compile" description="--> make a jar file for this project">
+        <jar destfile="${build.dir}/${ant.project.name}.jar">
+            <fileset dir="${classes.dir}"/>
+            <manifest>
+                <attribute name="Built-By" value="${user.name}"/>
+                <attribute name="Build-Version" value="${module.version}"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="war-content" depends="compile">
+        <copy todir="${war.dir}/classes" preservelastmodified="true" overwrite="true">
+            <fileset dir="${build.dir}/classes" excludes="*Test"/>
+        </copy>
+        <copy todir="${war.dir}/lib" preservelastmodified="true" overwrite="true">
+            <fileset dir="${lib.dir}"/>
+        </copy>
+        <copy todir="${war.dir}" preservelastmodified="true" overwrite="true">
+            <fileset dir="${basedir}/src/main/webapp"/>
+        </copy>
+    </target>
+
+    <target name="war" depends="war-content, jar" description="--> make a war file for this project">
+        <war compress="true" encoding="utf-8" warfile="${file.war}" webxml="${war.dir}/WEB-INF/web.xml">
+            <fileset dir="${war.dir}" excludes="WEB-INF/web.xml"/>
+        </war>
+    </target>
+</project>
